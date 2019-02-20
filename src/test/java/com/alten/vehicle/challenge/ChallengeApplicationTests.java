@@ -1,7 +1,6 @@
 package com.alten.vehicle.challenge;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -36,14 +35,14 @@ public class ChallengeApplicationTests {
 	
 	@Test
 	public void testVehicleListWithCustomer() {
-		List<Vehicle> list = vehicleRepository.findByCustomer(1L);
+		List<Vehicle> list = vehicleRepository.findByCustomer(1L, null);
 		
 		assertNotNull(list);
 	}
 	
 	@Test
 	public void testVehicleListWithCustomerNotExists() {
-		List<Vehicle> list = vehicleRepository.findByCustomer(10000L);
+		List<Vehicle> list = vehicleRepository.findByCustomer(10000L, null);
 		
 		assertTrue(list.size() == 0);
 	}

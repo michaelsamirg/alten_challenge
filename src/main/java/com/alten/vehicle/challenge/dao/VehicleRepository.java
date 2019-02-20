@@ -15,6 +15,7 @@ import com.alten.vehicle.challenge.model.Vehicle;
 @Transactional
 public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
-	@Query("SELECT v FROM Vehicle v inner join v.customers c WHERE c.id=:pCustomer")
-	List<Vehicle> findByCustomer(@Param("pCustomer") Long pCustomer);
+	@Query("SELECT v FROM Vehicle v left join v.customers c WHERE 1=1 and (:pCustomer is null or c.id=:pCustomer)"
+			+ " and (:pStatus is null or v.status =:pStatus) ")
+	List<Vehicle> findByCustomer(@Param("pCustomer") Long pCustomer, @Param("pStatus") Integer pStatus);
 }

@@ -1,7 +1,9 @@
 package com.alten.vehicle.challenge.rest;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,17 +24,30 @@ public class VehicleController {
 	
 	@RequestMapping(method = RequestMethod.GET, value="/list")
 	@ResponseBody
-	public List<Vehicle> listVehicle(@RequestParam(name = "customer", required=false, defaultValue = "") String customer)
+	public List<Vehicle> listVehicle(@RequestParam(name = "customer", required=false) String customer,
+			@RequestParam(name = "status", required=false) Integer status)
 	{
-		if(customer != null && customer.length() > 0)
+		List<Vehicle> list = new ArrayList<Vehicle>();
+
+		try {
+			list = vehicleRepository.findByCustomer(customer != null ? Long.parseLong(customer) : null, status);
+		} catch (Exception e) {
+			list = new ArrayList<Vehicle>();
+		}
+		
+		//update status
+		if(status == null)
 		{
-			try {
-				return vehicleRepository.findByCustomer(Long.parseLong(customer));
-			} catch (Exception e) {
-				return new ArrayList<Vehicle>();
+			for (Iterator<Vehicle> iterator = list.iterator(); iterator.hasNext();) {
+				Vehicle vehicle = (Vehicle) iterator.next();
+				
+				Random rand = new Random();
+				vehicle.setStatus(rand.nextInt(100000) % 2);
+				
+				vehicleRepository.save(vehicle);
 			}
 		}
-		else
-			return vehicleRepository.findAll();
+		
+		return list;
 	}
 }

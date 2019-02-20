@@ -1,7 +1,6 @@
 package com.alten.vehicle.challenge.model;
 
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -25,8 +24,8 @@ public class Vehicle {
 	@ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
         name = "VEHICLE_CUSTOMER", 
-        joinColumns = { @JoinColumn(name = "VEHICLE_ID") }, 
-        inverseJoinColumns = { @JoinColumn(name = "CUSTOMER_ID") }
+        joinColumns = { @JoinColumn(name = "CUSTOMER_ID") }, 
+        inverseJoinColumns = { @JoinColumn(name = "VEHICLE_ID") }
     )
 	private Set<Customer> customers = new HashSet<Customer>(); ;
 	
@@ -74,11 +73,6 @@ public class Vehicle {
 	}
 
 	public int getStatus() {
-		//return status;
-		Random rand = new Random();
-		int status = rand.nextInt(100000);
-		status = status % 2;
-		
 		return status;
 	}
 
