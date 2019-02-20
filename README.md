@@ -1,7 +1,7 @@
-# alten_challenge
-# Run the application
+# AltenChallenge
+## Run the application
 
 Run command `mvn spring-boot:run`
 
-# Test the application
+## Test the application
 Run commant `mvn test`
