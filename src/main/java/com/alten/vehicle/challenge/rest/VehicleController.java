@@ -25,18 +25,19 @@ public class VehicleController {
 	@RequestMapping(method = RequestMethod.GET, value="/list")
 	@ResponseBody
 	public List<Vehicle> listVehicle(@RequestParam(name = "customer", required=false) String customer,
-			@RequestParam(name = "status", required=false) Integer status)
+			@RequestParam(name = "status", required=false) String status)
 	{
 		List<Vehicle> list = new ArrayList<Vehicle>();
 
 		try {
-			list = vehicleRepository.findByCustomer(customer != null ? Long.parseLong(customer) : null, status);
+			list = vehicleRepository.findByCustomer(customer != null && customer.length() > 0 ? Long.parseLong(customer) : null, 
+					status != null && status.length() > 0 ? Integer.parseInt(status) : null);
 		} catch (Exception e) {
 			list = new ArrayList<Vehicle>();
 		}
 		
 		//update status
-		if(status == null)
+		if(status == null || (status != null && status.length() == 0))
 		{
 			for (Iterator<Vehicle> iterator = list.iterator(); iterator.hasNext();) {
 				Vehicle vehicle = (Vehicle) iterator.next();

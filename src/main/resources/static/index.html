@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>jQuery UI Selectmenu - Default functionality</title>
+<link rel="stylesheet"
+	href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<style>
+body {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+table {
+	font-size: 1em;
+}
+
+.ui-draggable, .ui-droppable {
+	background-position: top;
+}
+
+fieldset {
+	border: 0;
+}
+
+label {
+	display: block;
+	margin: 30px 0 0 0;
+}
+
+.overflow {
+	height: 200px;
+}
+</style>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+	$(function() {
+
+		$("#customer").selectmenu();
+
+		$("#status").selectmenu();
+
+		$.ajax({
+			url : "/customer/list",
+			type : 'GET',
+			success : function(res) {
+
+				var list = $("#customer");
+				for (var i = 0; res.length; i++) {
+					var customer = res[i];
+					list.append(new Option(customer.name, customer.id));
+				}
+			}
+		});
+
+		$( "button" ).click( function( event ) {
+		      event.preventDefault();
+		    
+			$.ajax({
+				url : "/vehicle/list",
+				type : 'GET',
+				data : {
+					customer : $("#customer")[0].value,
+					status : $("#status")[0].value
+				},
+				success : function(res) {
+
+					$("#vehicles").html("");
+					
+					for (var i = 0; res.length; i++) {
+						var vehicle = res[i];
+						if(vehicle.status == 1)
+							$("#vehicles").append("<div style='border-style: solid; width:40%; background-color: #1BD51B'>Vehicle Number" + vehicle.vehicleId + "<br/>Reg No:" + vehicle.regNo + "<div>");
+						else
+							$("#vehicles").append("<div style='border-style: solid; width:40%; background-color: #E44D4D'>Vehicle Number" + vehicle.vehicleId + "<br/>Reg No:" + vehicle.regNo + "<div>");
+					}
+				}
+			});
+		});
+		
+		
+
+	});
+</script>
+</head>
+<body>
+	<div class="demo">
+		<form action="#">
+			<fieldset>
+				<label for="customer">Select a Customer</label> 
+				<select name="customer" id="customer" onchange="loadVehicles">
+					<option value="" selected>All</option>
+				</select> 
+				
+				<label for="status">Select a Status</label> 
+				
+				<select name="status" id="status" onchange="loadVehicles">
+					<option value="" selected>All</option>
+					<option value="0">Inactive</option>
+					<option value="1">Active</option>
+				</select>
+			</fieldset>
+			
+			<button class="ui-button ui-widget ui-corner-all">Load Vehicles</button>
+ 			<br/><br/>
+			<Div id="vehicles"></Div>
+		</form>
+	</div>
+</body>
+</html>
