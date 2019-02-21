@@ -71,9 +71,9 @@ label {
 					for (var i = 0; res.length; i++) {
 						var vehicle = res[i];
 						if(vehicle.status == 1)
-							$("#vehicles").append("<div style='border-style: solid; width:40%; background-color: #1BD51B'>Vehicle Number" + vehicle.vehicleId + "<br/>Reg No:" + vehicle.regNo + "<div>");
+							$("#vehicles").append("<div style='border-style: solid; width:40%; background-color: #1BD51B'><b>Vehicle Number:</b> " + vehicle.vehicleId + "<br/><b>Reg No:</b> " + vehicle.regNo + "<div>");
 						else
-							$("#vehicles").append("<div style='border-style: solid; width:40%; background-color: #E44D4D'>Vehicle Number" + vehicle.vehicleId + "<br/>Reg No:" + vehicle.regNo + "<div>");
+							$("#vehicles").append("<div style='border-style: solid; width:40%; background-color: #E44D4D'><b>Vehicle Number:</b> " + vehicle.vehicleId + "<br/><b>Reg No:</b> " + vehicle.regNo + "<div>");
 					}
 				}
 			});
@@ -97,14 +97,20 @@ label {
 				
 				<select name="status" id="status" onchange="loadVehicles">
 					<option value="" selected>All</option>
-					<option value="0">Inactive</option>
-					<option value="1">Active</option>
+					<option value="0">Disconnected</option>
+					<option value="1">Connected</option>
 				</select>
 			</fieldset>
 			
 			<button class="ui-button ui-widget ui-corner-all">Load Vehicles</button>
  			<br/><br/>
 			<Div id="vehicles"></Div>
+			
+			<br/><br/>
+			
+			<div style='border-style: solid; width:12%; background-color: #E44D4D'>Disconnected</div>
+			<div style='border-style: solid; width:12%; background-color: #1BD51B'>Connected</div>
+			
 		</form>
 	</div>
 </body>
