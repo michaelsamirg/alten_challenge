@@ -7,5 +7,5 @@
 ## Test the application
 - Run commant `mvn test`
 
-## Access the application on;ine (AWS)
+## Access the application online (AWS)
 - link: http://3.18.18.7:8080/
